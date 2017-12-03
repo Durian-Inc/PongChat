@@ -2,6 +2,7 @@ package main
 
 import (
 	"strings"
+	"encoding/json"
 	"log"
 	"net/http"
 	"github.com/gorilla/websocket"
@@ -22,36 +23,45 @@ type Message struct {
 	Username string `json:"username"`
 	Message  string `json:"message"`
 	Socket *websocket.Conn
+	Chat bool
 }
 
 type Player struct {
 	Username string
-	Paddle uint8	
+	Paddle uint8
 	Socket *websocket.Conn
+}
+
+type BallType struct {
+	x float64
+	y float64
+	dir float64
+	speed float64
+}
+
+type PaddleType struct {
+	x float64
+	y float64
+	angle float64
+	id uint8
+	color string
 }
 
 type GamePacket struct {
 	Ball string
-	Paddle string
-}
-
-func check(err error, message string) {
-	if err != nil {
-		panic(err)	      
-	}
-	log.Println(message)
+	Paddles []string
+	Chat bool
 }
 
 func main() {
 	port := ":10000"
-
 	// Create a simple file server
 	fs := http.FileServer(http.Dir("../public"))
 	http.Handle("/", fs)
 
 	// Configure websocket route
 	http.HandleFunc("/ws", handleConnections)
-	
+
 	go handleMessages()
 
 	// Start the server on localhost port 8000 and log any errors
@@ -80,6 +90,7 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 		// Read in a new message as JSON and map it to a Message object
 		err := ws.ReadJSON(&msg)
 		msg.Socket = ws
+		msg.Chat = true
 		if err != nil {
 			log.Printf("error: %v", err)
 			delete(messengerClients, ws)
@@ -99,8 +110,24 @@ func handleMessages() {
 			player := Player{msg.Username, uint8(len(players)), msg.Socket}
 			players[msg.Username] = player
 		} else if strings.ToLower(msg.Message) == "/start" {
-			// stuff
+			var ball = json.Marshal(BallType{0,0,0,0})
+			var paddles = make([]string, 8, 10)
+			var color = []string {"FFF896", "FFBCD9", "CDA8FF", "BECEFF", "BBFFB9"}
+			for i := 0; i < len(players); i++ {
+				paddles = append(paddles, json.Marshal(PaddleType{0,0,0, uint8(i), color[i%5]}))
+			}
+			paddles = json.Marshal(paddles)
+			var packet = GamePacket{ball, paddles, false}
+			for player := range players {
+				err := players[player].Socket.WriteJSON(packet)
+				if err != nil {
+					log.Printf("error: %v", err)
+					players[player].Socket.Close()
+				}
+			}
 		} else if msg.Message == "" {
+			//packet = GamePacket{Ball{}, }
+
 			for player := range players {
 				err := players[player].Socket.WriteJSON(msg)
 				if err != nil {

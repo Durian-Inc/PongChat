@@ -6,20 +6,25 @@ var chatContent = "";
 var username = null;
 var joined = false;
 
+var packet;
 
 function created() {
     ws = new WebSocket("ws://" + "131.151.90.241:10000" + "/ws")
     ws.addEventListener("message", function(e) {
         var msg = JSON.parse(e.data);
-        var msgNode = document.createTextNode(msg.message);
-        var msgPara = document.createElement("p");
-        msgPara.appendChild(msgNode);
-        msgPara.setAttribute("class", "talktext");
-        var newClientMsg = document.createElement("div");
-        newClientMsg.setAttribute("class", "talk-bubble tri-right left-top");
-        newClientMsg.appendChild(msgPara)
-        var chatList = document.getElementById("chat__list");
-        chatList.appendChild(newClientMsg);
+        if (msg.chat) {
+            var msgNode = document.createTextNode(msg.message);
+            var msgPara = document.createElement("p");
+            msgPara.appendChild(msgNode);
+            msgPara.setAttribute("class", "talktext");
+            var newClientMsg = document.createElement("div");
+            newClientMsg.setAttribute("class", "talk-bubble tri-right left-top");
+            newClientMsg.appendChild(msgPara)
+            var chatList = document.getElementById("chat__list");
+            chatList.appendChild(newClientMsg);
+        } else {
+            packet = msg;
+        }
     });
 }
 
@@ -68,3 +73,21 @@ function updateScroll(){
 }
 
 created();
+
+var pong = document.getElementById("pong");
+var h = document.documentElement.clientHeight;
+var w = document.documentElement.clientWidth;
+
+if(h >= w && 2/3 * h <= w) {
+    pong.style.width = 2/3 * h + "px";
+    pong.style.height = pong.style.height;
+} else if(2/3 * h >= w && h >= w) {
+    pong.style.height = w + "px";
+    pong.style.width = pong.style.height
+} else if(2/3 * w > h) {
+    pong.style.width = h + "px";
+    pong.style.height = pong.style.width;
+} else {
+    pong.style.height = 2/3 * w + "px";
+    pong.style.width = pong.style.height;
+}
