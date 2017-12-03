@@ -20,13 +20,22 @@ function created() {
 }
 
 function send() {
+    
     if (newMsg != "") {
+        /*
         ws.send(
             JSON.stringify({
                 username: username,
                 message: newMsg
             }));
+            */
+        var newItem = document.createElement("li");
+        var node = document.createTextNode(newMsg);
+        newItem.appendChild(node);
+        var chatList = document.getElementById("chat__list");
+        chatList.appendChild(newItem);
         newMsg = "";
+
     }
 }
 
