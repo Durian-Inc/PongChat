@@ -21,6 +21,13 @@ body {
     left: 0;
 }
 
+.pong__game-box{
+    background-color: black;
+    width: 100%;
+    position: absolute;
+    left: 16em;
+    height: 93%;
+}
 /* CSS talk bubble */
 .talk-bubble {
 	margin: 40px;

@@ -27,6 +27,7 @@ function send() {
     
     if (newMsg != "") {
         placeMessageInDiv();
+        changeSize();
         ws.send(
             JSON.stringify({
                 username: username,
@@ -71,6 +72,15 @@ function placeMessageInDiv(){
     newClientMsg.appendChild(msgPara)
     var chatList = document.getElementById("chat__list");
     chatList.appendChild(newClientMsg);
+
+}
+
+function changeSize(){
+
+    var game_box = document.getElementById("pong-box");
+    var random_width = Math.floor(Math.random() * 100);
+    game_box.style.width = random_width+"%";
+    
 }
 
 created();
