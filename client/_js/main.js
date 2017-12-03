@@ -11,31 +11,29 @@ function created() {
     ws = new WebSocket("ws://" + "131.151.252.113:8000" + "/ws")
     ws.addEventListener("message", function(e) {
         var msg = JSON.parse(e.data);
-        self.chatContent += '<div class="chip">' +
-            msg.username + "</div>" + "<br/>";
-
-        var element = document.getElementById("chat-messages");
-        element.scrollTop = element.scrollHeight;
+        var msgNode = document.createTextNode(newMsg);
+        var msgPara = document.createElement("p");
+        msgPara.appendChild(msgNode);
+        msgPara.setAttribute("class", "talktext");
+        var newClientMsg = document.createElement("div");
+        newClientMsg.setAttribute("class", "talk-bubble tri-right left-top");
+        newClientMsg.appendChild(msgPara)
+        var chatList = document.getElementById("chat__list");
+        chatList.appendChild(newClientMsg);
     });
 }
 
 function send() {
     
     if (newMsg != "") {
-        /*
+        placeMessageInDiv();
         ws.send(
             JSON.stringify({
                 username: username,
                 message: newMsg
             }));
-            */
-        var newItem = document.createElement("li");
-        var node = document.createTextNode(newMsg);
-        newItem.appendChild(node);
-        var chatList = document.getElementById("chat__list");
-        chatList.appendChild(newItem);
         newMsg = "";
-
+        
     }
 }
 
@@ -61,5 +59,18 @@ submitButton.addEventListener('click', function(e) {
     }
     return false;
 }, true);
+
+
+function placeMessageInDiv(){
+    var msgNode = document.createTextNode(newMsg);
+    var msgPara = document.createElement("p");
+    msgPara.appendChild(msgNode);
+    msgPara.setAttribute("class", "talktext");
+    var newClientMsg = document.createElement("div");
+    newClientMsg.setAttribute("class", "talk-bubble tri-right left-top");
+    newClientMsg.appendChild(msgPara)
+    var chatList = document.getElementById("chat__list");
+    chatList.appendChild(newClientMsg);
+}
 
 created();
