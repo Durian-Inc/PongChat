@@ -62,7 +62,6 @@ submitButton.addEventListener('click', function(e) {
     return false;
 }, true);
 
-
 function placeMessageInDiv(){
     var msgNode = document.createTextNode(newMsg);
     var msgPara = document.createElement("p");
