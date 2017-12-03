@@ -26,10 +26,11 @@ function created() {
             packet = msg;
         }
     });
+
 }
 
 function send() {
-    
+
     if (newMsg != "") {
         //placeMessageInDiv();
         //changeSize();
@@ -41,6 +42,7 @@ function send() {
         newMsg = "";
         document.getElementById("chat__message").value = "";
         updateScroll();
+
     }
 }
 
@@ -67,12 +69,34 @@ submitButton.addEventListener('click', function(e) {
     return false;
 }, true);
 
-function updateScroll(){
+function updateScroll() {
     var element = document.getElementById("chat__back");
     element.scrollTop = element.scrollHeight - element.clientHeight;
 }
 
+function placeMessageInDiv() {
+    var msgNode = document.createTextNode(newMsg);
+    var msgPara = document.createElement("p");
+    msgPara.appendChild(msgNode);
+    msgPara.setAttribute("class", "talktext");
+    var newClientMsg = document.createElement("div");
+    newClientMsg.setAttribute("class", "talk-bubble tri-right left-top");
+    newClientMsg.appendChild(msgPara)
+    var chatList = document.getElementById("chat__list");
+    chatList.appendChild(newClientMsg);
+
+}
+
+function changeSize() {
+
+    var game_box = document.getElementById("pong-box");
+    var random_width = Math.floor(Math.random() * 100);
+    game_box.style.width = random_width + "%";
+
+}
+
 created();
+<<<<<<< HEAD
 
 var pong = document.getElementById("pong");
 var h = document.documentElement.clientHeight;
@@ -91,3 +115,24 @@ if(h >= w && 2/3 * h <= w) {
     pong.style.height = 2/3 * w + "px";
     pong.style.width = pong.style.height;
 }
+=======
+document.getElementById("pong-box").style.height = "500px";
+document.getElementById("pong-box").style.width = "500px";
+//function resize() {
+// var screenHeight = document.documentElement.offsetheight;
+// var screenWidth = document.documentElement.offsetWidth;
+// if (parseInt(screenHeight * (2 / 3)) <= parseInt(screenWidth) && parseInt(screenHeight) >= screenWidth) {
+//     document.getElementById("pong-box").style.width = (2 / 3) * screenHeight + "px";
+//     document.getElementById("pong-box").style.height = document.getElementById("pong-box").style.width + "px";
+// } else if ((2 / 3) * screenHeight >= screenWidth && screenHeight >= screenWidth) {
+//     document.getElementById("pong-box").style.width = str(screenWidth) + "px";
+//     document.getElementById("pong-box").style.height = document.getElementById("pong-box").style.width;
+// } else if (screenWidth >= screenHeight && (2 / 3) * screenWidth <= screenHeight) {
+//     document.getElementById("pong-box").style.height = (2 / 3) * screenWidth;
+//     document.getElementById("pong-box").style.width = document.getElementById("pong-box").style.height;
+// } else {
+//     document.getElementById("pong-box").style.width = screenHeight;
+//     document.getElementById("pong-box").style.height = document.getElementById("pong-box").style.width;
+// }
+//}
+>>>>>>> ea0d00ef5c4fbd41a973cf6e92aaa5d927aca589

@@ -2,6 +2,10 @@
 
 var ballColor = "#FFFFFF";
 
+var keyPressed = [];
+window.onkeyup = function(e) {keyPressed[e.keyCode]=false;}
+window.onkeydown = function(e) {keyPressed[e.keyCode]=true;}
+
 // Objects for our pong game
 
 // Game object, stores the game state
@@ -55,10 +59,54 @@ function createGame(players, player, color) {
 	var points = generatePoints(pong.width/2, pong.height/2, players, pong.width/2, 0);
 	drawRegularPolygon(pong.context, pong.width/2, pong.height/2, players, pong.width/2, 0, false, null, true, "red", 5);
 	pong.points = [points[player], points[(player + 1) % players]];
-	// Oh god it's awful.  Using good ol' high school math, we're putting the paddle in the middle of it's side and giving it the correct angle
-	pong.player = new Paddle((pong.points[0][0] + pong.points[1][0])/2, (pong.points[0][1] + pong.points[1][1])/2, Math.atan((pong.points[0][1] - pong.points[1][1]) / (pong.points[0][0] - pong.points[1][0])), color);
+	pong.players = [];
+	for (var i = 0; i < players; i++) {
+		// Oh god it's awful.  Using good ol' high school math, we're putting the paddle in the middle of it's side and giving it the correct angle
+		pong.players.push(new Paddle((points[i][0] + points[(i + 1) % players][0])/2, (points[i][1] + points[(i + 1) % players][1])/2, Math.atan((points[i][1] - points[(i + 1) % players][1]) / (points[i][0] - points[(i + 1) % players][0])), color));
+	}
+	pong.player = pong.players[player];
 	pong.player.draw(pong.context);
-	
+}
+
+Pong.prototype.update = function() {
+	if (keyPressed[37]) { // Left arrow key
+		var tx = this.points[0][0] - this.player.x,
+				ty = this.points[0][1] - this.player.y,
+				dist = Math.sqrt(tx*tx+ty*ty),
+				rad = Math.atan2(ty,tx),
+				angle = rad/Math.PI * 180;;
+
+		velX = (tx/dist)*2;
+		velY = (ty/dist)*2;
+
+		// stop the box if its too close so it doesn't just rotate and bounce
+		if(dist > 1){
+			this.player.x += velX;
+			this.player.y += velY;
+		}
+	} else if (keyPressed[39]) { // Right arrow key
+		var tx = this.points[1][0] - this.player.x,
+				ty = this.points[1][1] - this.player.y,
+				dist = Math.sqrt(tx*tx+ty*ty),
+				rad = Math.atan2(ty,tx),
+				angle = rad/Math.PI * 180;;
+
+		var velX = (tx/dist)*2;
+		var velY = (ty/dist)*2;
+
+		// stop the box if its too close so it doesn't just rotate and bounce
+		if(dist > 1){
+			this.player.x += velX;
+			this.player.y += velY;
+		}
+	}
+}
+
+Pong.prototype.draw = function() {
+	this.context.clearRect(0, 0, this.width, this.height);
+	for (var i = 0; i < this.players.length; i++) {
+		this.players[i].draw(this.context);
+	}
 }
 
 function PongLoop() {
@@ -68,4 +116,6 @@ function PongLoop() {
 	setTimeout(PongLoop, 16.6667);
 }
 
-createGame(7, 6, "blue");
+createGame(7, 1, "blue");
+
+PongLoop();
