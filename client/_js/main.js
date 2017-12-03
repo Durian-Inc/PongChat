@@ -62,30 +62,9 @@ submitButton.addEventListener('click', function(e) {
     return false;
 }, true);
 
-function placeMessageInDiv(){
-    var msgNode = document.createTextNode(newMsg);
-    var msgPara = document.createElement("p");
-    msgPara.appendChild(msgNode);
-    msgPara.setAttribute("class", "talktext");
-    var newClientMsg = document.createElement("div");
-    newClientMsg.setAttribute("class", "talk-bubble tri-right left-top");
-    newClientMsg.appendChild(msgPara)
-    var chatList = document.getElementById("chat__list");
-    chatList.appendChild(newClientMsg);
-
-}
-
-function changeSize(){
-
-    var game_box = document.getElementById("pong-box");
-    var random_width = Math.floor(Math.random() * 100);
-    game_box.style.width = random_width+"%";
-
-}
-
 function updateScroll(){
     var element = document.getElementById("chat__back");
-    element.scrollTop = element.scrollHeight;
+    element.scrollTop = element.scrollHeight - element.clientHeight;
 }
 
 created();

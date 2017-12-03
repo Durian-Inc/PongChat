@@ -7,7 +7,7 @@ body {
 /* .pong__bg {} */
 
 .chat__bg {
-    height: 86%;
+    height: 37em;
     position: absolute;
     background-color: #49599a;
     width: 19%;
@@ -30,7 +30,9 @@ body {
 }
 /* CSS talk bubble */
 .talk-bubble {
-	margin: 40px;
+    margin: 40px;
+    margin-bottom: 0;
+    margin-top: 40px; 
     display: inline-block;
     position: relative;
     width: 200px;
