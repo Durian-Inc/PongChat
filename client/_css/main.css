@@ -7,13 +7,86 @@ body {
 /* .pong__bg {} */
 
 .chat__bg {
-    width: 100%;
-    height: 70%;
-    position: relative;
+    height: 37em;
+    position: absolute;
+    background-color: #49599a;
+    width: 19%;
+    overflow-y: scroll;
 }
 
 .chat__input {
-    position: absolute;
+    z-index: 1;
+    position: fixed;
     bottom: 0;
     left: 0;
+}
+
+.pong__game-box{
+    background-color: black;
+    width: 100%;
+    position: absolute;
+    left: 16em;
+    height: 93%;
+}
+/* CSS talk bubble */
+.talk-bubble {
+    margin: 40px;
+    margin-bottom: 0;
+    margin-top: 40px; 
+    display: inline-block;
+    position: relative;
+    width: 200px;
+    height: auto;
+    background-color:  #aab6fe;
+    clear: left;
+}
+
+.border {
+    border: 8px solid #666;
+}
+
+.round {
+border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+
+}
+  
+/* Style */
+.tri-right.border.left-top:before {
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+  left: -40px;
+	right: auto;
+  top: -8px;
+	bottom: auto;
+	border: 32px solid;
+	border-color: #666 transparent transparent transparent;
+}
+.tri-right.left-top:after{
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+  left: -20px;
+	right: auto;
+  top: 0px;
+	bottom: auto;
+	border: 22px solid;
+	border-color: #aab6fe transparent transparent transparent;
+}
+
+/* talk bubble contents */
+.talktext {
+    padding: 1em;
+    text-align: left;
+    line-height: 1.5em;
+    overflow-wrap: break-word;
+}
+.talktext p {
+/* remove webkit p margins */
+-webkit-margin-before: 0em;
+-webkit-margin-after: 0em;
 }
