@@ -8,7 +8,7 @@ var joined = false;
 
 
 function created() {
-    ws = new WebSocket("ws://" + "131.151.252.113:8000" + "/ws")
+    ws = new WebSocket("ws://" + "localhost:8000" + "/ws")
     ws.addEventListener("message", function(e) {
         var msg = JSON.parse(e.data);
         self.chatContent += '<div class="chip">' +
