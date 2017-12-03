@@ -12,7 +12,7 @@ function created() {
     ws = new WebSocket("ws://" + "131.151.90.241:10000" + "/ws")
     ws.addEventListener("message", function(e) {
         var msg = JSON.parse(e.data);
-        if (msg.chat) {
+        if (msg.message) {
             var msgNode = document.createTextNode(msg.message);
             var msgPara = document.createElement("p");
             msgPara.appendChild(msgNode);
@@ -37,7 +37,7 @@ function send() {
         ws.send(
             JSON.stringify({
                 username: username,
-                message: newMsg
+                message: username + ": " + newMsg
             }));
         newMsg = "";
         document.getElementById("chat__message").value = "";
@@ -96,7 +96,6 @@ function changeSize() {
 }
 
 created();
-<<<<<<< HEAD
 
 var pong = document.getElementById("pong");
 var h = document.documentElement.clientHeight;
@@ -115,24 +114,3 @@ if(h >= w && 2/3 * h <= w) {
     pong.style.height = 2/3 * w + "px";
     pong.style.width = pong.style.height;
 }
-=======
-document.getElementById("pong-box").style.height = "500px";
-document.getElementById("pong-box").style.width = "500px";
-//function resize() {
-// var screenHeight = document.documentElement.offsetheight;
-// var screenWidth = document.documentElement.offsetWidth;
-// if (parseInt(screenHeight * (2 / 3)) <= parseInt(screenWidth) && parseInt(screenHeight) >= screenWidth) {
-//     document.getElementById("pong-box").style.width = (2 / 3) * screenHeight + "px";
-//     document.getElementById("pong-box").style.height = document.getElementById("pong-box").style.width + "px";
-// } else if ((2 / 3) * screenHeight >= screenWidth && screenHeight >= screenWidth) {
-//     document.getElementById("pong-box").style.width = str(screenWidth) + "px";
-//     document.getElementById("pong-box").style.height = document.getElementById("pong-box").style.width;
-// } else if (screenWidth >= screenHeight && (2 / 3) * screenWidth <= screenHeight) {
-//     document.getElementById("pong-box").style.height = (2 / 3) * screenWidth;
-//     document.getElementById("pong-box").style.width = document.getElementById("pong-box").style.height;
-// } else {
-//     document.getElementById("pong-box").style.width = screenHeight;
-//     document.getElementById("pong-box").style.height = document.getElementById("pong-box").style.width;
-// }
-//}
->>>>>>> ea0d00ef5c4fbd41a973cf6e92aaa5d927aca589
