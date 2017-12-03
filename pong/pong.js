@@ -66,6 +66,7 @@ function createGame(players, player, color) {
 	}
 	pong.player = pong.players[player];
 	pong.player.draw(pong.context);
+	pong.ball = new Ball(pong.width/2, pong.height/2, 0, 2);
 }
 
 Pong.prototype.update = function() {
@@ -107,6 +108,7 @@ Pong.prototype.draw = function() {
 	for (var i = 0; i < this.players.length; i++) {
 		this.players[i].draw(this.context);
 	}
+	this.ball.draw(this.context);
 }
 
 function PongLoop() {
@@ -116,6 +118,6 @@ function PongLoop() {
 	setTimeout(PongLoop, 16.6667);
 }
 
-createGame(7, 1, "blue");
+createGame(3, 0, "blue");
 
 PongLoop();
