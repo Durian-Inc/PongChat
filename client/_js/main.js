@@ -8,10 +8,10 @@ var joined = false;
 
 
 function created() {
-    ws = new WebSocket("ws://" + "localhost:8000" + "/ws")
+    ws = new WebSocket("ws://" + "rc06ucs213.managed.mst.edu:10000" + "/ws")
     ws.addEventListener("message", function(e) {
         var msg = JSON.parse(e.data);
-        var msgNode = document.createTextNode(newMsg);
+        var msgNode = document.createTextNode(msg.message);
         var msgPara = document.createElement("p");
         msgPara.appendChild(msgNode);
         msgPara.setAttribute("class", "talktext");
@@ -26,8 +26,8 @@ function created() {
 function send() {
     
     if (newMsg != "") {
-        placeMessageInDiv();
-        changeSize();
+        //placeMessageInDiv();
+        //changeSize();
         ws.send(
             JSON.stringify({
                 username: username,
