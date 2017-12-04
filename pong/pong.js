@@ -70,36 +70,24 @@ function createGame(players, player, color) {
 }
 
 Pong.prototype.update = function() {
+	var tx = 0, ty = 0;
 	if (keyPressed[37]) { // Left arrow key
-		var tx = this.points[0][0] - this.player.x,
-				ty = this.points[0][1] - this.player.y,
-				dist = Math.sqrt(tx*tx+ty*ty),
-				rad = Math.atan2(ty,tx),
-				angle = rad/Math.PI * 180;;
-
-		velX = (tx/dist)*2;
-		velY = (ty/dist)*2;
-
-		// stop the box if its too close so it doesn't just rotate and bounce
-		if(dist > 1){
-			this.player.x += velX;
-			this.player.y += velY;
-		}
+		tx = this.points[0][0] - this.player.x,
+		ty = this.points[0][1] - this.player.y;
 	} else if (keyPressed[39]) { // Right arrow key
-		var tx = this.points[1][0] - this.player.x,
-				ty = this.points[1][1] - this.player.y,
-				dist = Math.sqrt(tx*tx+ty*ty),
-				rad = Math.atan2(ty,tx),
-				angle = rad/Math.PI * 180;;
+		tx = this.points[1][0] - this.player.x,
+		ty = this.points[1][1] - this.player.y;
+	}
+	var dist = Math.sqrt(tx*tx+ty*ty),
+			rad = Math.atan2(ty,tx),
+			angle = rad/Math.PI * 180,
+			velX = (tx/dist)*2,
+			velY = (ty/dist)*2;
 
-		var velX = (tx/dist)*2;
-		var velY = (ty/dist)*2;
-
-		// stop the box if its too close so it doesn't just rotate and bounce
-		if(dist > 1){
-			this.player.x += velX;
-			this.player.y += velY;
-		}
+	// Stop when it reaches the edge
+	if (dist > 1) {
+		this.player.x += velX;
+		this.player.y += velY;
 	}
 }
 
