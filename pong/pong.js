@@ -118,6 +118,6 @@ function PongLoop() {
 	setTimeout(PongLoop, 16.6667);
 }
 
-createGame(3, 0, "blue");
+createGame(7, 0, "blue");
 
 PongLoop();
