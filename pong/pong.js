@@ -12,7 +12,7 @@ window.onkeydown = function(e) {keyPressed[e.keyCode]=true;}
 function Pong() {
 	var canvas = document.getElementById("pong");
 	// Game is played in a 1:1 aspect ratio
-	this.width = this.height = canvas.width = canvas.height;
+	this.width = this.height = canvas.width = canvas.height = 1000;
 	this.context = canvas.getContext("2d");
 }
 

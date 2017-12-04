@@ -1,16 +1,21 @@
 html,
 body {
     height: 100%;
+    width: 100%;
 }
 
 
 /* .pong__bg {} */
 
+nav {
+    height: 10%;
+}
+
 .chat__bg {
-    height: 37em;
+    height: 90%;
     position: absolute;
     background-color: #49599a;
-    width: 19%;
+    width: 30%;
     overflow-y: scroll;
 }
 
@@ -23,10 +28,10 @@ body {
 
 .pong__game-box{
     background-color: black;
-    width: 100%;
+    width: 70%;
     position: absolute;
-    left: 16em;
-    height: 93%;
+    left: 30%;
+    height: 90%;
 }
 /* CSS talk bubble */
 .talk-bubble {
