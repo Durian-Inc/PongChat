@@ -4,46 +4,61 @@ body {
     width: 100%;
 }
 
-
-/* .pong__bg {} */
+.flex-wrapper {
+    display: flex;
+    flex-direction: column;
+}
 
 nav {
-    height: 10%;
+    height: 60px;
+}
+
+.pong__bg {
+    background-color: black;
+    display: flex;
 }
 
 .chat__bg {
-    height: 90%;
-    position: absolute;
+    position: relative;
     background-color: #49599a;
-    width: 30%;
     overflow-y: scroll;
 }
 
+.chat__list {
+    margin-bottom: 50px;
+}
+
+.chat__form {
+    justify-content: center;
+}
+
+.chat__text-field {
+    width: 65%;
+}
+
 .chat__input {
-    z-index: 1;
+    z-index: 10;
+    width: 100%;
     position: fixed;
     bottom: 0;
     left: 0;
 }
 
-.pong__game-box{
-    background-color: black;
-    width: 70%;
-    position: absolute;
-    left: 30%;
-    height: 90%;
+.chat__list {
+    width: 100%;
 }
+
+.chat__button {
+    width: 85px;
+}
+
 /* CSS talk bubble */
 .talk-bubble {
-    margin: 40px;
-    margin-bottom: 0;
-    margin-top: 40px; 
+    margin: 2% 8% 2% 24px;
     display: inline-block;
     position: relative;
-    width: 200px;
-    height: auto;
+    max-width: calc(100% - 20%);
     background-color:  #aab6fe;
-    clear: left;
 }
 
 .border {
@@ -51,7 +66,7 @@ nav {
 }
 
 .round {
-border-radius: 30px;
+    border-radius: 30px;
     -webkit-border-radius: 30px;
     -moz-border-radius: 30px;
 
@@ -63,9 +78,9 @@ border-radius: 30px;
 	position: absolute;
 	width: 0;
 	height: 0;
-  left: -40px;
+    left: -40px;
 	right: auto;
-  top: -8px;
+    top: -8px;
 	bottom: auto;
 	border: 32px solid;
 	border-color: #666 transparent transparent transparent;
@@ -75,9 +90,9 @@ border-radius: 30px;
 	position: absolute;
 	width: 0;
 	height: 0;
-  left: -20px;
+    left: -20px;
 	right: auto;
-  top: 0px;
+    top: 0px;
 	bottom: auto;
 	border: 22px solid;
 	border-color: #aab6fe transparent transparent transparent;
@@ -85,13 +100,20 @@ border-radius: 30px;
 
 /* talk bubble contents */
 .talktext {
+    margin: 0;
     padding: 1em;
     text-align: left;
     line-height: 1.5em;
     overflow-wrap: break-word;
 }
 .talktext p {
-/* remove webkit p margins */
--webkit-margin-before: 0em;
--webkit-margin-after: 0em;
+    /* remove webkit p margins */
+    -webkit-margin-before: 0em;
+    -webkit-margin-after: 0em;
+}
+
+@media (min-width: 1000px) {
+    .flex-wrapper {
+        flex-direction: row-reverse;
+    }
 }

@@ -3,28 +3,29 @@
 var ws = null;
 var newMsg = "";
 var chatContent = "";
-var username = null;
+var username = "";
 var joined = false;
 
 var packet;
 
 function created() {
-    ws = new WebSocket("ws://" + "131.151.90.241:10000" + "/ws")
+    ws = new WebSocket("ws://" + window.location.host + "/ws")
     ws.addEventListener("message", function(e) {
         var msg = JSON.parse(e.data);
-        if (msg.message) {
-            var msgNode = document.createTextNode(msg.message);
+            var msgNode = document.createTextNode(msg.username + ": " + msg.message);
             var msgPara = document.createElement("p");
             msgPara.appendChild(msgNode);
             msgPara.setAttribute("class", "talktext");
             var newClientMsg = document.createElement("div");
             newClientMsg.setAttribute("class", "talk-bubble tri-right left-top");
             newClientMsg.appendChild(msgPara)
+            var newMsgWrapper = document.createElement("div");
+            newMsgWrapper.setAttribute("class", "msgWrapper");
+            newMsgWrapper.appendChild(newClientMsg)
             var chatList = document.getElementById("chat__list");
-            chatList.appendChild(newClientMsg);
-        } else {
-            packet = msg;
-        }
+            chatList.appendChild(newMsgWrapper);
+
+            $("#chat__back").scrollTop($("#chat__back")[0].scrollHeight);
     });
 
 }
@@ -34,11 +35,11 @@ function send() {
     if (newMsg != "") {
         //placeMessageInDiv();
         //changeSize();
-        ws.send(
-            JSON.stringify({
-                username: username,
-                message: username + ": " + newMsg
-            }));
+        var msgJSON = JSON.stringify({
+                    username: username,
+                    message: newMsg
+                  });
+        ws.send(msgJSON);
         newMsg = "";
         document.getElementById("chat__message").value = "";
         updateScroll();
@@ -47,21 +48,23 @@ function send() {
 }
 
 function join() {
-    if (!username) {
-        console.log("You must choose a username");
+    username = document.getElementById("chat__message").value;
+    if (username == "") {
+        alert("You must choose a username.");
         return;
     }
-    username = $("<p>").html(username).text();
+    submitButton.innerHTML = "Send";
+    document.getElementById("chat__message").value = "";
+    document.getElementById("chat__message").placeholder = "Message";
     joined = true;
 }
 
 var submitButton = document.getElementById("chat__send");
 submitButton.addEventListener('click', function(e) {
     e.preventDefault();
-    if (submitButton.innerHTML != "Send") {
+    if (username == "") {
         username = document.getElementById("chat__message").value;
         join();
-        submitButton.innerHTML = "Send";
     } else {
         newMsg = document.getElementById("chat__message").value;
         send();
@@ -87,30 +90,39 @@ function placeMessageInDiv() {
 
 }
 
-function changeSize() {
-
-    var game_box = document.getElementById("pong-box");
-    var random_width = Math.floor(Math.random() * 100);
-    game_box.style.width = random_width + "%";
-
-}
-
 created();
 
+var input = document.getElementById("chat__float");
+var chat = document.getElementById("chat__back");
 var pong = document.getElementById("pong");
 var h = document.documentElement.clientHeight;
 var w = document.documentElement.clientWidth;
 
+h = h - 60;
+
 if(h >= w && 2/3 * h <= w) {
-    pong.style.width = 2/3 * h + "px";
+    // For 9:16 phones
+    var newH = 2/3 * h;
+    pong.style.width = newH + "px";
     pong.style.height = pong.style.height;
+    chat.style.height = h - newH + "px";
 } else if(2/3 * h >= w && h >= w) {
-    pong.style.height = w + "px";
+    // For tall phones
+    var newH = w;
+    pong.style.height = newH + "px";
     pong.style.width = pong.style.height
+    chat.style.height = h - newH + "px";
 } else if(2/3 * w > h) {
+    // For 16:9 Desktops
     pong.style.width = h + "px";
     pong.style.height = pong.style.width;
+    chat.style.height = h + "px";
+    chat.style.width = w - h + "px";
+    input.style.width = w - h + "px";
 } else {
-    pong.style.height = 2/3 * w + "px";
+    // For 4:3 computers
+    var newH = 2/3 * w;
+    pong.style.height = newH + "px";
     pong.style.width = pong.style.height;
+    chat.style.height = h - newH + "px";
 }
